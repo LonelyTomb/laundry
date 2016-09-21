@@ -1,8 +1,17 @@
 (function() {
+    "use strict";
     var val = $('result_txt').parent().find('input').val();
     if ($.trim(val) == "" && $('.result_txt').html() == "") {
         $('.result_txt').hide();
-    }
+    };
+    if($(window).width()<=480){
+        $(".delete_item").html("Del");
+    };
+    $(window).resize(function(){
+        if($(window).width()<=480){
+            $(".delete_item").html("Del");
+        }
+    });
 })();
 
 function add($item) {
@@ -20,10 +29,11 @@ function minus($item) {
         $item.parentsUntil(".qty").find(".quantity").val(val);
     }
 }
-
+/*******************************/
+/*   Cart Functions   */
+/*******************************/
 function add_to_cart($item) {
     "use strict";
-    // console.log("aa");
     var val = parseInt($item.parent().find('.quantity').val());
     var name = $item.parent().find('.name').val();
     var price = $item.parent().find('.price').val();
@@ -36,7 +46,7 @@ function add_to_cart($item) {
             type: "POST",
             url: 'includes/process_cart.php',
             data: data,
-            dataType:'json',
+            dataType: 'json',
             success: function(data) {
                 $(".cart_body").html(data.txt);
                 $(".num_of_items").html(data.count);
@@ -46,14 +56,16 @@ function add_to_cart($item) {
     $item.parent().find('.quantity').val("0");
 }
 
+//Removes item from cart
 function remove_from_cart($item) {
+    "use strict";
     var id = parseInt($item.parent().find('input').val());
     var data = 'id=' + id;
     $.ajax({
         type: 'POST',
         url: 'includes/process_cart.php',
         data: data,
-        dataType:'json',
+        dataType: 'json',
         success: function(data) {
             $(".num_of_items").html(data.count);
             $(".cart_body").html(data.txt);
@@ -61,7 +73,7 @@ function remove_from_cart($item) {
                 $('#laundry_cart').modal('hide');
             }
         }
-    })
+    });
 }
 // display laundry cart modal
 function view_cart() {
@@ -71,10 +83,10 @@ function view_cart() {
         type: 'GET',
         url: 'includes/process_cart.php',
         data: data,
-        dataType:'json',
+        dataType: 'json',
         success: function(data) {
             $(".num_of_items").html(data.count);
-            if (data.txt == "<p>Laundry Cart is currently empty</p>") {
+            if (data.count == 0) {
                 $(".clear_cart, .chk_out").hide();
             } else {
                 $(".clear_cart, .chk_out").show();
@@ -82,37 +94,60 @@ function view_cart() {
             $(".cart_body").html(data.txt);
 
         }
-    })
+    });
 }
-
+//Empties the cart
 function clear_cart() {
     "use strict";
     var data = 'clear';
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: 'includes/process_cart.php',
         data: data,
-        dataType:'json',
+        dataType: 'json',
         success: function(data) {
             $(".num_of_items").html(data.count);
             $(".cart_body").html(data.txt);
             $('#laundry_cart').modal('hide');
         }
 
+    });
+}
+function checkout(){
+    "use strict";
+    var data = "checkout";
+    $.ajax({
+        type:'POST',
+        url: 'includes/process_cart.php',
+        data: data,
+        dataType: 'json',
+        success: function(data){
+            if(data.code == "!logged"){
+                $(".alert_msg").html("<div class='alert alert-danger alert-dismissible text-center' role='alert'><button type='button' class='close close_alert' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>Please log in to access checkout function</div></div>");
+                $('#laundry_cart').modal('hide');
+            };
+            console.log("wkin");
+        }
     })
 }
+
+/****************/
+/*        End   */
+/****************/
+/*******************************/
+/*   Beginning of AJAX Validation   */
+/*******************************/
 //registeration
 function validate_icn(icon, parent) { // toggle Validation Icon
+    "use strict";
     if (parent.find('.result_icn').hasClass('glyphicon-remove')) {
         if (icon === 'glyphicon glyphicon-ok text-success') {
-            parent.find('.result_icn').removeClass('glyphicon-remove text-danger');
-            parent.find('.result_icn').addClass('glyphicon-ok text-success');
+            parent.find('.result_icn').removeClass('glyphicon-remove text-danger').addClass('glyphicon-ok text-success');
 
         }
     } else if (parent.find('.result_icn').hasClass('glyphicon-ok')) {
         if (icon === 'glyphicon glyphicon-remove text-danger') {
-            parent.find('.result_icn').removeClass('glyphicon-ok text-warning');
-            parent.find('.result_icn').addClass('glyphicon-remove text-danger');
+            parent.find('.result_icn').removeClass('glyphicon-ok text-warning').addClass('glyphicon-remove text-danger');
         }
     } else {
         parent.find('.result_icn').addClass(icon);
@@ -135,7 +170,6 @@ $("#name_up").blur(function() {
             p.find('.result_txt').html(data.txt);
         }
     });
-    // console.log(p.attr('class'));
 });
 $("#email_up").blur(function() {
     "use strict";
@@ -207,6 +241,26 @@ $("#pwd_up").blur(function() {
         }
     });
 });
+
+$("#confrm_password").blur(function(){
+    "use strict";
+    var pwd = $("#rst_password").val();
+    var cnfrm_pwd = $("#confrm_password").val();
+    if(cnfrm_pwd === pwd){
+        $(".result_icn").removeClass("glyphicon glyphicon-remove text-danger").addClass("glyphicon glyphicon-ok text-success");
+    }else{
+        $(".result_icn").removeClass("glyphicon glyphicon-ok text-success").addClass("glyphicon glyphicon-remove text-danger");
+    }
+});
+/*******************************/
+/*   End of AJAX Validation   */
+/*******************************/
+
+//Reloads Page
 $(".close_alert").click(function() {
     location.assign("index.php");
+});
+$(".reset_body form").submit(function() {
+console.log("aaa");
+ event.preventDefault();
 });

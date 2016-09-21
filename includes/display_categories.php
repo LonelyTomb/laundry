@@ -66,11 +66,11 @@
           </td>
           <td class='qty col-xs-3'>
               <p class='input-group'>
-                  <span class='input-group-btn add' onclick='minus($(this))'><a class='btn btn-danger'><i class='fa fa-minus' ></i></a></span>
+                  <span class='input-group-btn add' onclick='minus($(this))'><a class='btn btn-danger'><i class='glyphicon glyphicon-minus'></i></a></span>
                   <input type='text' name='quantity' class='quantity form-control' value='0'>
                   <input type='hidden' name='name' class='name' value='$hidden_name'>
                   <input type='hidden' name='cloth_id' class='cloth_id' value='$clothing_id'>
-                  <span class='input-group-btn'><a class='btn btn-success' id='add' type='button' onclick='add($(this))'><i class='fa fa-plus'></i></a>
+                  <span class='input-group-btn'><a class='btn btn-success' id='add' type='button' onclick='add($(this))'><i class='glyphicon glyphicon-plus'></i></a>
                       <button type='button' class='btn btn-primary' onclick='add_to_cart($(this).parent())' name='button'>Add</button></span>
               </p>
           </td>

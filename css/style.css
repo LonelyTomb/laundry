@@ -1,31 +1,27 @@
 body {
     padding-top: 70px;
+    min-height: 100%;
 }
-a{
-  font-family: lato;
+a {
+    font-family: lato;
 }
-nav ul.nav{
-  text-align: center;
-
-  text-transform: capitalize;
-
-  font-family: lato;
-  font-size: 120%;
-
+nav ul.nav {
+    text-align: center;
+    text-transform: capitalize;
+    font-family: lato;
+    font-size: 120%;
 }
-nav ul.nav li{
+nav ul.nav li {
     transition: all 0.6s;
 }
-nav ul.nav li:hover{
-background-color:#e01;
+nav ul.nav li:hover {
+    background-color: #e01;
 }
-.text-info{
-  display: block;
-
-padding-left: 10px;
-
-font-weight: 600;
-font-style: italic;
+.text-info {
+    display: block;
+    padding-left: 10px;
+    font-weight: 600;
+    font-style: italic;
 }
 .log_on ul li:nth-child(1) {
     margin-left: 23%;
@@ -38,10 +34,8 @@ font-style: italic;
     z-index: 1031;
     top: 1%;
     right: 20%;
-
     width: auto;
     padding: 2px;
-
     border: solid thin #fff;
     border-radius: 20%;
     background-color: #F6E8CD;
@@ -51,9 +45,7 @@ font-style: italic;
     -moz-box-shadow: 0px 0px 15px #333333;
     /*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
     box-shadow: 0px 0px 15px #333333;
-
     font-family: "Roboto-Regular";
-
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=15, Direction=90, Color=#333333)";
     /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
     filter: progid: DXImageTransform.Microsoft.Shadow(Strength=15, Direction=90, Color=#333333);
@@ -63,67 +55,68 @@ font-style: italic;
     display: inherit;
 }
 .cart a {
-    text-decoration: none
-
-    color: #000;
+    text-decoration: none color: #000;
 }
-
-/*.cart a:hover h4{
-font-weight: 700;
-/*font-size: 20px;
-}*/
-
+.cart h4 {
+    font-family: "Roboto-bold";
+    font-weight: 600;
+}
 .content {
     left: -80% !important;
-
     margin: auto;
     padding: 5px 10px;
-
     text-align: center;
 }
 .carousel-inner {
     height: 450px;
 }
-.clothing_header{
-  text-transform: capitalize;
+.clothing_header {
+    text-transform: capitalize;
 }
 .orders {
     margin-top: 10px;
 }
+
 /*.orders table{
   margin-bottom: 10px !important;
 }*/
+
 .order-row td {
     vertical-align: middle !important;
 }
 .item-name p {
     padding-top: 2px;
     padding-left: 6px;
-
     text-align: center;
-
     font-size: 13px;
 }
 .item-name p small {
     display: block;
-
     padding-left: 10px;
-
     font-weight: 600;
     font-style: italic;
 }
 .pricing {
     text-align: center;
 }
-
 .qty p input {
     min-width: 50px;
-
     text-align: center;
 }
-.add_to_cart button{
-  margin-top: -10px;
-  margin-bottom: 10px;
+.add_to_cart button {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+.cart_init table tbody td{
+    vertical-align: middle;
+}
+@media (max-width:480px) {
+    .cart_init table p{
+        font-size: 80%;
+    }
+    .delete_item{
+        font-size: 75%;
+    }
 }
 footer {
     background-color: #2F2F2F;
@@ -131,16 +124,15 @@ footer {
 footer h4 {
     color: #fff;
 }
-footer h4+ul li{
-  display: inline-block !important;
-  clear: both;
+footer h4+ul li {
+    display: inline-block !important;
+    clear: both;
 }
-.control-label{
-  text-align: left !important;
+.control-label {
+    text-align: left !important;
 }
-.result_txt{
-  margin-bottom: 0;
-  margin-left: 10px;
-
-  font-style: italic;
+.result_txt {
+    margin-bottom: 0;
+    margin-left: 10px;
+    font-style: italic;
 }

@@ -27,8 +27,8 @@ function validatePasswordLength($pwrd)
 }
 function confirm_logged_in()
 {
-    if (!isset($_SESSION['username']) && !isset($_SESSION['logged'])) {
-        header('location: index.php');
+    if (isset($_SESSION['username']) && isset($_SESSION['logged'])) {
+        return false;
     }
 }
 
