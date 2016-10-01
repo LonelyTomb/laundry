@@ -2,8 +2,15 @@ body {
     padding-top: 70px;
     min-height: 100%;
 }
+.modal-content{
+  min-width: 370px;
+}
 a {
     font-family: lato;
+}
+.before_msg{
+  font-style: italic;
+  display: none;
 }
 nav ul.nav {
     text-align: center;
@@ -12,10 +19,19 @@ nav ul.nav {
     font-size: 120%;
 }
 nav ul.nav li {
-    transition: all 0.6s;
+  transition: 0 all 5.6s ease;
 }
 nav ul.nav li:hover {
-    background-color: #e01;
+/* FF3.6+ */
+/* Chrome,Safari4+ */
+/* Chrome10+,Safari5.1+ */
+/* Opera 11.10+ */
+/* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f4', endColorstr='#dc4115', GradientType='1'); /* for IE */
+  background: -webkit-linear-gradient(#f4f4f4 0%, #dc4115 96%);
+  background: -o-linear-gradient(#f4f4f4 0%, #dc4115 96%);
+  background: linear-gradient(#f4f4f4 0%, #dc4115 96%);/* W3C */
+
 }
 .text-info {
     display: block;
@@ -27,7 +43,7 @@ nav ul.nav li:hover {
     margin-left: 23%;
 }
 .log_on ul li:nth-child(2) {
-    margin-right: : 23%;
+    margin-right: 23%;
 }
 .cart {
     position: fixed;
@@ -40,11 +56,11 @@ nav ul.nav li:hover {
     border-radius: 20%;
     background-color: #F6E8CD;
     /*FF 3.5+*/
-    -webkit-box-shadow: 0px 0px 15px #333333;
+    -webkit-box-shadow: 0 0 15px #333333;
     /*IE 8*/
-    -moz-box-shadow: 0px 0px 15px #333333;
+    -moz-box-shadow: 0 0 15px #333333;
     /*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
-    box-shadow: 0px 0px 15px #333333;
+    box-shadow: 0 0 15px #333333;
     font-family: "Roboto-Regular";
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=15, Direction=90, Color=#333333)";
     /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
@@ -55,7 +71,8 @@ nav ul.nav li:hover {
     display: inherit;
 }
 .cart a {
-    text-decoration: none color: #000;
+    text-decoration: none ;
+    color: #000;
 }
 .cart h4 {
     font-family: "Roboto-bold";
@@ -76,10 +93,6 @@ nav ul.nav li:hover {
 .orders {
     margin-top: 10px;
 }
-
-/*.orders table{
-  margin-bottom: 10px !important;
-}*/
 
 .order-row td {
     vertical-align: middle !important;

@@ -49,6 +49,7 @@
         $stmt->bindColumn('price', $price);
 
         while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
+          //Converts & to -
             $hidden_name = strtr($name, '&', '-');
             $price = number_format($price);
             if ($cty == '') {
@@ -77,6 +78,9 @@
       </tr>";
         }
         $message .= '</tbody></table>';
+        if($cty != ''){
+          $message.='<script>(function(){ window.scrollTo(0, 610);})();</script>';
+        }
         echo $message;
     }
     ?>

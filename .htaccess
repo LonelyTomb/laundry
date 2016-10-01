@@ -1,0 +1,39 @@
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# Block access to all hidden files and directories with the exception of
+# the visible content from within the `/.well-known/` hidden directory.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} "!(^|/)\.well-known/([^./]+./?)+$" [NC]
+    RewriteCond %{SCRIPT_FILENAME} -d [OR]
+    RewriteCond %{SCRIPT_FILENAME} -f
+    RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+# This reduces exposure to drive-by download attacks and cross-origin
+# data leaks, and should be left uncommented, especially if the server
+# is serving user-uploaded content or content that could potentially be
+# treated as executable by the browser.
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Remove the `X-Powered-By` response header that:
+#
+#  * is set by some frameworks and server-side languages
+#    (e.g.: ASP.NET, PHP), and its value contains information
+#    about them (e.g.: their name, version number
+
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+</IfModule>
+
+# Prevent Apache from adding a trailing footer line containing
+# information about the server to the server-generated documents
+ServerSignature Off
+
+ErrorDocument 403 /webClass/wk/page-404.php
+ErrorDocument 404 /webClass/wk/page-404.php

@@ -3,6 +3,15 @@ require 'processor.php';
 require 'connection.php';
 $icon = array(
 'icn_remove' => 'glyphicon glyphicon-remove text-danger', 'icn_ok' => 'glyphicon glyphicon-ok text-success', );
+function validateName($nam)
+{
+    if (preg_match('/^[a-z\d- ]{2,20}$/i', $nam)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 function test_name($name, $icon)
 {
@@ -74,25 +83,14 @@ function test_phone($phone, $icon)
         return array('icon' => $icon['icn_remove'], 'txt' => 'Invalid Telephone number!');
     }
 }
-####          AJAX Validation   ########
-if (isset($_POST['name']) && isset($_POST['sign_Up']) === false) {
-    echo json_encode(test_name($_POST['name'], $icon));
+function confirm_password($pwd,$cnfrm_pwd, $icon){
+if(in_array($icon['icn_ok'], test_password($cnfrm_pwd, $icon))){
+        if($cnfrm_pwd === $pwd){
+            return array('icon' => $icon['icn_ok'], 'txt' => 'Password Match!');
+        }else{
+            return array('icon' => $icon['icn_remove'], 'txt' => 'Incorrect Password Match!');
+        }
+}else{
+    return test_password($cnfrm_pwd, $icon);
 }
-
-if (isset($_POST['email']) && !isset($_POST['sign_Up'])) {
-    echo json_encode(test_email($_POST['email'], $icon));
 }
-if (isset($_POST['password']) && !isset($_POST['sign_Up'])) {
-    echo json_encode(test_password($_POST['password'], $icon));
-}
-if (isset($_POST['phone']) && !isset($_POST['sign_Up'])) {
-    echo json_encode(test_phone($_POST['phone'], $icon));
-}
-if (isset($_POST['address']) && !isset($_POST['sign_Up'])) {
-    if (empty($_POST['address'])) {
-        echo json_encode(array('txt' => 'Address field cannot be empty!'));
-    }else{
-        echo json_encode(array('txt' => 'Address field valid'));
-    }
-}
-### End of AJAX Validation  ######

@@ -25,7 +25,7 @@
               </div>
 
           </div>
-          <nav class="navbar navbar-default navbar-fixed-top navbar-inverse " role="navigation">
+          <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
               <div class="">
                   <div class="navbar-header">
                       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-content">
@@ -39,12 +39,18 @@
                   <div class="collapse navbar-collapse" id="navbar-content">
                       <ul class="nav navbar-nav">
                           <?php
-                          try {
+                          $active ='';
+                          try {#displays categories existing in database
                               $sql = 'SELECT * FROM category';
                               $stmt = $pdo->query($sql);
                               $stmt->bindColumn('name', $name);
                               while ($result = $stmt->fetch(PDO::FETCH_BOUND)) {
-                                  echo "<li><a href='index.php?category=$name'>$name</a></li>";
+                                if(isset($_GET['category'])  && $_GET['category']=== $name){
+                                  $active = 'active';
+                                }else{
+                                  $active = '';
+                                }
+                                  echo "<li class='{$active}'><a href='index.php?category=$name' class='ctgy_link'>$name</a></li>";
                               }
                           } catch (PDOException $e) {
                               $error = $e->getMessage();

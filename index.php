@@ -6,16 +6,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title></title>
+    <title>Laundry</title>
     <?php require 'resources.php';?>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <?php require "_header.php"; ?>
-      <?php require 'includes/alert_states.php';?>
-      <div class="alert_msg"></div>
     <div class="container-fluid">
+        <div class="alert_msg" id="alert_msg"></div>
         <div id="carousel-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -70,16 +69,16 @@
         </div>
     </div>
     <?php require "_footer.php";?>
-
-    <!-- Sign In -->
-    <?php require "_sign_in.php";?>
-
-    <!-- Sign Up -->
-    <?php require "_sign_up.php";?>
-
+<?php
+if(!confirm_logged_in()){
+    #<!-- Sign In -->
+     require "_sign_in.php";
+    #<!-- Sign Up  Modal--
+     require "_sign_up.php";
+}
+?>
     <!-- // display cart -->
     <?php require "_laundry_cart.php";?>
-
     <script src="js/script.js"></script>
 </body>
 </html>
