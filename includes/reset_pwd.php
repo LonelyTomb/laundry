@@ -1,5 +1,5 @@
 <?php
-require 'start_session.php';
+require '../config/start_session.php';
 require 'validate.php';
 
 if (isset($_POST['submit'])) {
@@ -40,10 +40,10 @@ if (isset($_POST['submit'])) {
                 $errorInfo = $stmt->errorInfo();
 
                 if ($stmt->rowCount() == 1) {
-                    echo json_encode(array('icon' => $icon['icn_ok'], 'txt' => 'Password Successfully Updated!'));
+                    echo json_encode(array('icon' => $icon['icn_ok'], 'txt' => 'Password Successfully Updated!','color' => $alertColor['ok']));
                 }
             } else {
-                echo json_encode(array('icon' => $icon['icn_remove'], 'txt' => 'Incorect combination of username and email'));
+                echo json_encode(array('icon' => $icon['icn_remove'], 'txt' => 'Incorect combination of username and email','color' => $alertColor['nok']));
             }
         } catch (PDOException $e) {
             $error = $e->getMessage();

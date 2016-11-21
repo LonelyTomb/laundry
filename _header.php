@@ -2,12 +2,12 @@
       <header>
           <div class="page-header clearfix">
               <div class="col-md-3 col-xs-12 pull-left">
-                  <h1 class="text-center">Laundry</h1>
+                  <h1 class="text-center">Washman</h1>
               </div>
               <div class="col-md-4 col-md-offset-1 col-xs-offset-1 log_on">
                   <ul class="nav nav-pills text-center">
                     <?php
-                    if (!isset($_SESSION['logged'])) {
+                    if (!isset($_SESSION['user']['logged'])) {
                         echo "<li><a class='btn btn-info' data-toggle='modal' data-target='#logIn'>Log in</a></li>
                       <li><a class='btn btn-primary' data-toggle='modal' data-target='#signUp'>Sign Up</a></li>";
                     } else {
@@ -17,8 +17,8 @@
                   </ul>
               </div>
               <div class="col-md-2 col-xs-12 pull-right cart dropdown">
-                  <a data-target="#laundry_cart" class="btn" data-toggle="modal" onclick="view_cart()"><h4 class="text-center">Cart: <span class="num_of_items"><?php if(isset($_SESSION['laundry_cart'])){
-                      echo count($_SESSION['laundry_cart']);
+                  <a data-target="#laundry_cart" class="btn" data-toggle="modal" onclick="view_cart()"><h4 class="text-center">Cart: <span class="num_of_items"><?php if(isset($_SESSION['user']['laundry_cart'])){
+                      echo count($_SESSION['user']['laundry_cart']);
                   }else{
                       echo "0";
                   }?></span></h4></a>

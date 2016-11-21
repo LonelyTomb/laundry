@@ -1,6 +1,6 @@
-<?php require 'includes/start_session.php';?>
-<?php require 'includes/processor.php'; ?>
-<?php require 'includes/connection.php'; ?>
+<?php require 'config/start_session.php';?>
+<?php require "config/processor.php"; ?>
+<?php require "config/connection.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +13,6 @@
     .reset_body{
       min-height: 250px;
     }
-    .reset_body .alert{
-      display: none;
-    }
     .reset_body button[type="submit"]{
       margin-bottom: 2%;
     }
@@ -25,11 +22,7 @@
     <?php require '_header.php'; ?>
         <form class="form form-horizontal container" action="includes/reset_pwd.php" method="post">
           <div class="container-fluid reset_body">
-            <div class="alert alert-warning text-center">
-              <a href="#" data-dismiss="alert" class="close">&times;</a>
-              <p>
-              </p>
-            </div>
+          <div class="alertBlock"></div>
           <div class="form-group">
             <label for="username" class="col-xs-3 control-label">Username: </label>
             <div class="col-xs-9">
@@ -66,7 +59,7 @@
       </div>
       <?php require '_footer.php';?>
       <?php
-      if(!confirm_logged_in()){
+      if(confirm_logged_in() === false){
           #<!-- Sign In -->
            require "_sign_in.php";
           #<!-- Sign Up  Modal--

@@ -1,51 +1,149 @@
-body{
-  background-color: #F4F4F4;
+h1,h2,h3,h4,h5,h6{
+    font-family: "Quicksand";
 }
-.toolbar{
-  position: absolute;
-  top: 0;
-  left: 0;
+body {
+    background-color: #f4f4f4;
+}
 
-  padding-bottom: 20px;
-  background-color: rgb(49, 45, 22);
-  background-color: rgba(49, 45, 22,0.5);
--webkit-box-shadow: 3px 3px 3px #333333;/*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
--moz-box-shadow: 3px 3px 3px #333333;/*FF 3.5+*/
-box-shadow: 3px 3px 3px #333333;/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+.toolbar {
+    position: fixed;
+    top: 5%;
+    left: 0;
+    padding-bottom: 20px;
+    background-color: rgb(49, 45, 22);
+    background-color: rgba(49, 45, 22, .5);
+    -webkit-box-shadow: 3px 3px 3px #333;
+    /*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+    -moz-box-shadow: 3px 3px 3px #333;
+    /*FF 3.5+*/
+    box-shadow: 3px 3px 3px #333;
+    /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color=#333333)';
+    /*IE 8*/
+    filter: progid: DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color=#333333);
+    /*IE 5.5-7*/
+}
 
-  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color=#333333)";/*IE 8*/
-filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color=#333333); /*IE 5.5-7*/
+.adminHeader {
+    margin-top: 15%;
+    padding-bottom: 19px;
+    font-size: 30px;
+    font-weight: 700;
 }
-.adminHeader{
-margin-top: 40px;
-  padding-bottom: 9px;
-}
-.adminLinks{
-  position: relative;
-  left: -14px;
 
-  width: 100%;;
+.adminHeader a {
+    height: 50px;
+    padding: 15px;
+    color: #ddd;
+    font-family: lato;
+    line-height: 20px;
 }
-.adminLinks a{
-  text-decoration: none;
 
+.adminHeader a:hover {
+    text-decoration: none;
+    /*font-size: 35px;*/
 }
-.adminLinks a p{
-  position: relative;
-  margin: 0;
-  left:0;
-  padding:  8px 0 10px 15px;/* FF3.6+ *//* Chrome,Safari4+ *//* Chrome10+,Safari5.1+ *//* Opera 11.10+ *//* IE10+ */
-  background: -webkit-linear-gradient(#ffffff 0%, #f8f8f8 100%);
-  background: -o-linear-gradient(#ffffff 0%, #f8f8f8 100%);
-  background: linear-gradient(#ffffff 0%, #f8f8f8 100%);/* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f8f8f8', GradientType='1'); /* for IE */
-  transition: all 1s ease-in;
-  }
-  .adminLinks a:hover p{
+
+.adminLinks {
+    position: relative;
+    left: -14px;
+    width: 100%;
+    background-color: #eee;
+    ;
+}
+.adminLinks > div{
+    position: relative;
+}
+.adminLinks a {
+    text-decoration: none;
+    color: #000;
+    font-family: lato;
+    font-weight: 600;
+}
+
+.adminLinks a p {
+    position: relative;
+    left: 0;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 8px 0 10px 15px;
+    /* FF3.6+ */
+    /* Chrome,Safari4+ */
+    /* Chrome10+,Safari5.1+ */
+    /* Opera 11.10+ */
+    /* IE10+ */
+    transition: all .6s ease-in-out;
+    background: -webkit-linear-gradient(#fff 0%, #f8f8f8 100%);
+    background: -o-linear-gradient(#fff 0%, #f8f8f8 100%);
+    background: linear-gradient(#fff 0%, #f8f8f8 100%);
+    /* W3C */
+    -webkit-box-shadow: 0px 3px 3px #333333;
+    /*Saf3-4, Chrome, iOS 4.0.2-4.2, Android 2.3+*/
+    -moz-box-shadow: 0px 3px 3px #333333;
+    /*FF 3.5+*/
+    box-shadow: 0px 3px 3px #333333;
+    /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f8f8f8', GradientType='1');
+    /* for IE */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=180, Color=#333333)";
+    /*IE 8*/
+    filter: progid: DXImageTransform.Microsoft.Shadow(Strength=3, Direction=180, Color=#333333);
+    /*IE 5.5-7*/
+}
+
+.before_msg {
+    font-style: italic;
+    display: none;
+}
+
+.adminLinks a:hover p {
     left: 5%;
-    background: red;
-  }
-  .categories{
+    /*background: red;*/
+}
+
+.jumbotron h1 {
+    font-family: "Roboto-Bold";
+}
+
+.categories {
     width: 95%;
     margin-left: 5%;
-  }
+}
+
+.categories a p {
+    text-transform: capitalize;
+}
+
+.categories a p:hover {
+    left: -5%;
+}
+
+.collapseArrow {
+    margin-right: 3%;
+    padding: 1px 8px;
+    /*margin-top: -5px;*/
+    position: absolute;
+    z-index: 100;
+    top: 10px;
+    right: 1px;
+}
+
+.collapseArrow:hover {
+    cursor:pointer;
+}
+.login label+div {
+    margin-bottom: 10px;
+}
+
+.mailReceiverlabel {
+    text-transform: capitalize;
+}
+.ctgy_name{
+  text-transform: capitalize;
+}
+.categories thead th{
+  text-align: center;
+}
+.productForm label{
+    line-height: 2;
+}

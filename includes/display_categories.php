@@ -43,6 +43,13 @@
             $stmt->bindParam(':category', $cty, PDO::PARAM_STR);
             $stmt->execute();
         }
+
+        //If No Products Found
+        if($stmt->rowCount() == 0){
+            $message = "<div class='well'>
+          <p class='lead page-header'>No Products exist under this category yet.</p>
+          </div>";
+        }else{
         $stmt->bindColumn('clothing_id', $clothing_id);
         $stmt->bindColumn('name', $name);
         $stmt->bindColumn('category', $category);
@@ -50,8 +57,8 @@
 
         while ($row = $stmt->fetch(PDO::FETCH_BOUND)) {
           //Converts & to -
-            $hidden_name = strtr($name, '&', '-');
             $price = number_format($price);
+
             if ($cty == '') {
                 $text_info = "<small class='text-info'>$category</small>";
             }
@@ -69,7 +76,6 @@
               <p class='input-group'>
                   <span class='input-group-btn add' onclick='minus($(this))'><a class='btn btn-danger'><i class='glyphicon glyphicon-minus'></i></a></span>
                   <input type='text' name='quantity' class='quantity form-control' value='0'>
-                  <input type='hidden' name='name' class='name' value='$hidden_name'>
                   <input type='hidden' name='cloth_id' class='cloth_id' value='$clothing_id'>
                   <span class='input-group-btn'><a class='btn btn-success' id='add' type='button' onclick='add($(this))'><i class='glyphicon glyphicon-plus'></i></a>
                       <button type='button' class='btn btn-primary' onclick='add_to_cart($(this).parent())' name='button'>Add</button></span>
@@ -77,7 +83,10 @@
           </td>
       </tr>";
         }
-        $message .= '</tbody></table>';
+        $message .= '</tbody></table><div class="add_to_cart">
+            <button type="button" class="pull-right btn btn-success" onclick="view_cart()" data-target="#laundry_cart" data-toggle="modal" name="button">View Cart</button>
+        </div>';
+            }
         if($cty != ''){
           $message.='<script>(function(){ window.scrollTo(0, 610);})();</script>';
         }

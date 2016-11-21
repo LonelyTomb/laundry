@@ -1,4 +1,7 @@
-<?php require '../includes/processor.php';?>
+<?php require '../config/start_session.php';?>
+<?php require '../config/processor.php';?>
+<?php require '../config/connection.php';?>
+<?php require '../config/token.php';?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,52 +13,42 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <div class='container-fluid'>
+      <?php
+      if(confirm_admin() == true){
+        require 'parts/_toolbar.php';
+      }
+      ?>
+      <div class="col-xs-8 col-xs-offset-3">
+
     <?php
-    if (!isset($_SESSION['admin'])) {
-        echo'
-    ';
+      if(confirm_admin() === false){
+        require 'parts/_login.php';
+      }else if (confirm_admin() === true && isset($_GET['create_admin'])) {
+        require 'parts/_create_new_admin.php';
+      }else if(confirm_admin() === true && isset($_GET['edit_admin'])){
+        require 'parts/_edit_admin.php';
+      }else if(confirm_admin() === true && isset($_GET['categories']) || isset($_GET['category'])){
+            if(isset($_GET['categories']) && $_GET['categories'] == ''){
+                require 'parts/_display_categories.php';
+              }else if(isset($_GET['category']) && $_GET['category'] !== ''){
+                require 'parts/_display_product.php';  
+                }    
+      }elseif(confirm_admin() === true && isset($_GET["create_product"])){
+                require 'parts/_create_new_product.php';  
+      }else{      
+        $username = $_SESSION['admin']['username'];
+        echo "<div class='jumbotron jumbotron-fluid'>
+        <div class='container'>
+          <h1 class='display-3'>Admin Section</h1>
+          <hr class='m-y-2'/>
+          <p class='lead'>Admin {$username}  Currently logged in.</p><p class='m-b-0'> Click on one of the various links to proceed</p>
+        </div>
+      </div>";
     }
     ?>
-    <div class='container-fluid'>
-      <div class="col-sm-3 pull-left hidden-xs toolbar">
-        <div>
-          <h3 class='adminHeader'>Admin Section</h3>
-        </div>
-        <div class='adminLinks'>
-        <a href="#" class=""><p class=''>Log Out</p></a>
-        <a href="#" class=""><p class=''>Edit Current Admin Profile</p></a>
-        <a href="#" class=""><p class=''>Add New Admin</p></a>
-        <a class="" data-toggle="collapse" href="#categories" aria-expanded="false" aria-controls="categories"><p class=''>Check Categories</p></a>
-        <div class="collapse categories" id="categories">
-          <a href=""><p>Men</p></a>
-          <a href=""><p>Ladies</p></a>
-          <a href=""><p>Household</p></a>
-        </div>
-        <a href="#" class=""><p class=''>Create New Product</p></a>
-        </div>
-      </div>
-      <div class="col-sm-8 pull-right">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-3">Admin Section</h1>
-          <p class="lead">Restricted Access!!!</p>
-        </div>
-      </div>
-      <form action='' class='form form-horizontal'>
-        <div class='formgroup row'>
-          <label for="email" class="control-label col-sm-3">Email</label>
-          <div class="col-sm-4">
-            <input type="email" id="email" class="form-control" name="email">
-          </div>
-        </div>
-        <div class='formgroup row'>
-          <label for="pwd" class="control-label col-sm-3">Password</label>
-          <div class="col-sm-4">
-            <input type="password" id="pwd"class="form-control" name="pwd">
-          </div>
-        </div>
-      </form>
-      </div>
-    </div>
+  </div>
+  </div>
+    <script src="script.js"></script>
   </body>
 </html>

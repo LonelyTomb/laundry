@@ -8,6 +8,7 @@
 
               <div class="modal-body">
                   <form class="form form-horizontal container-fluid" action="includes/sign_in.php" method="post">
+                    <div class="alertBlock"></div>
                     <div class='alert alert-dismissible  text-center' role='alert'>
                       <button type='button' class='close close_alert' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
                       <span class='glyphicon alert_icon' aria-hidden='true'></span>

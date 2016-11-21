@@ -46,7 +46,7 @@ if (isset($_POST['signUp'])) {
         #Encrypts Password
       $enc_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $sql = 'INSERT INTO users (usr_id, name, email, phone, address, password) VALUES(:usr_id, :name,:email,:phone,:address,:password)';
+            $sql = 'INSERT INTO users (usr_num, name, email, phone, address, password) VALUES(:usr_num, :name,:email,:phone,:address,:password)';
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':usr_num', $usr_num, PDO::PARAM_INT);
             $stmt->bindParam(':name', $name, PDO::PARAM_STR);

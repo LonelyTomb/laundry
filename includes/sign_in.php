@@ -1,7 +1,7 @@
 <?php
-require 'start_session.php';
-require 'processor.php';
-require 'connection.php';
+require '../config/start_session.php';
+require '../config/processor.php';
+require '../config/connection.php';
 
 $color = array('success' => 'alert-success', 'failure' => 'alert-danger');
 $icn = array('success' => 'glyphicon-ok-sign', 'failure' => 'glyphicon-exclamation-sign');
@@ -22,7 +22,7 @@ if (isset($_POST['logIn'])) {
 
                 $result = $stmt->fetch(PDO::FETCH_BOUND);
                 if (password_verify($password, $pwd)) {
-                    $_SESSION['logged'] = true;
+                    $_SESSION['user']['logged'] = true;
                     $_SESSION['user']['username'] = $name;
                     $_SESSION['user']['email'] = $email;
                     echo json_encode(array('txt'=>'Log In Process Successful!', 'color'=>$color['success'],'icon'=>$icn['success']));

@@ -1,8 +1,9 @@
 <?php
-require 'processor.php';
-require 'connection.php';
+require '../config/processor.php';
+require '../config/connection.php';
 $icon = array(
 'icn_remove' => 'glyphicon glyphicon-remove text-danger', 'icn_ok' => 'glyphicon glyphicon-ok text-success', );
+$alertColor = array('ok'=>'alert-success','nok'=>'alert-danger','info'=>'alert-info');
 function validateName($nam)
 {
     if (preg_match('/^[a-z\d- ]{2,20}$/i', $nam)) {

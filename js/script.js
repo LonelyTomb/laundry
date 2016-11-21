@@ -1,4 +1,17 @@
 /* global $ */
+// toggles Alert Window on/off
+function displayAlert (parent, data, color = 'alert-info', toggle = 'show') {
+  var alert = '<div class="alert ' + color + ' alert-dismissible text-center" role="alert"><button type="button" class="close close_alert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="alert_msg">' + data + '</div></div></div>';
+
+  if ($(parent).children().is('div.alert') && toggle === 'show') {
+    $('div.alert_msg').html(data);
+  } else if (!($(parent).children().is('div.alert')) && toggle === 'show') {
+    $(parent).append(alert);
+  } else if (toggle === 'hide') {
+    $(alert).detach();
+  }
+}
+
 (function () {
   'use strict';
   var val = $('result_txt').parent().find('input').val();
@@ -13,9 +26,7 @@
       $('.delete_item').html('Del');
     }
   });
-  $('.close_alert').click(function () {
-    $('.alert').alert('close');
-  });
+
   if ($('form .alert_msg strong').html() === '') {
     $('form .alert').hide();
   }
@@ -43,15 +54,17 @@ function add_to_cart ($item) {
   'use strict';
   var val = parseInt($item.parent().find('.quantity').val());
   var name = $item.parent().find('.name').val();
-  var price = $item.parent().find('.price').val();
   var id = $item.parent().find('.cloth_id').val();
-  var category = $item.parent().find('.category').val();
   if (val > 0) {
-    var data = 'name=' + name + '&cloth_id=' + id + '&price=' + price + '&quantity=' + val + '&category=' + category + '&send';
     $.ajax({
       type: 'POST',
       url: 'includes/process_cart.php',
-      data: data,
+      cache:false,
+      data: {
+        cloth_id: id,
+        quantity: val,
+        send:''
+      },
       dataType: 'json',
       success: function (data) {
         $('.cart_body').html(data.txt);
@@ -66,11 +79,13 @@ function add_to_cart ($item) {
 function remove_from_cart ($item) {
   'use strict';
   var id = parseInt($item.parent().find('input').val());
-  var data = 'id=' + id;
   $.ajax({
     type: 'POST',
     url: 'includes/process_cart.php',
-    data: data,
+    cache:false,
+    data: {
+      id:id
+    },
     dataType: 'json',
     success: function (data) {
       $('.num_of_items').html(data.count);
@@ -84,11 +99,13 @@ function remove_from_cart ($item) {
 // display laundry cart modal
 function view_cart () {
   'use strict';
-  var data = 'view';
   $.ajax({
     type: 'POST',
     url: 'includes/process_cart.php',
-    data: data,
+    cache:false,
+    data:{
+      view:''
+    },
     dataType: 'json',
     success: function (data) {
       $('.num_of_items').html(data.count);
@@ -104,44 +121,18 @@ function view_cart () {
 // Empties the cart
 function clear_cart () {
   'use strict';
-  var data = 'clear';
   $.ajax({
     type: 'POST',
     url: 'includes/process_cart.php',
-    data: data,
+    cache:false,
+    data: {
+      clear:''
+    },
     dataType: 'json',
     success: function (data) {
       $('.num_of_items').html(data.count);
       $('.cart_body').html(data.txt);
       $('#laundry_cart').modal('hide');
-    }
-  });
-}
-
-function checkout () {
-  'use strict';
-  var data = 'checkout';
-  $.ajax({
-    type: 'POST',
-    url: 'includes/process_cart.php',
-    data: data,
-    dataType: 'json',
-    beforeSend: function () {
-      $('.before_msg').show();
-    },
-    success: function (data) {
-      $('.before_msg').hide();
-      if (data.code === '!logged') {
-        $('.alert_msg').html("<div class='alert alert-danger alert-dismissible text-center' role='alert'><button type='button' class='close close_alert' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>Please log in to access checkout function</div></div>");
-        $('#laundry_cart').modal('hide');
-        // window.location = '#alert_msg';
-        window.scrollTo(10, 150);
-      }
-      if (data.code === 'logged') {
-        $('#laundry_cart').modal('hide');
-        $('.num_of_items').html('0');
-        $('.alert_msg').html('<div class="alert alert-success alert-dismissible text-center" role="alert"><button type="button" class="close close_alert" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><p>' + data.txt + '</p></div></div>');
-      }
     }
   });
 }
@@ -166,10 +157,36 @@ function validateIcn (icon, parent) { // toggle Validation Icon
   }
 }
 (function () {
+  $('.chk_out').click(function () {
+    'use strict';
+    var data = 'checkout';
+    $.ajax({
+      type: 'POST',
+      url: 'includes/process_cart.php',
+      data: data,
+      cache:false,
+      dataType: 'json',
+      beforeSend: function () {
+        $('.before_msg').show();
+      },
+      success: function (data) {
+        $('.before_msg').hide();
+        if (data.code === '!logged') {
+          // window.location = '#alert_msg';
+          window.scrollTo(10, 150);
+        }
+        if (data.code === 'logged') {
+          $('.num_of_items').html(data.count);
+        }
+        $('#laundry_cart').modal('hide');
+        displayAlert('.mainalertBlock', data.txt, data.color);
+      }
+    });
+  });
   /* ******************************/
   /*   Beginning of AJAX Validation   */
   /* ******************************/
-  $('#name_up').blur(function () {
+  $('.name_up').blur(function () {
     'use strict';
     var name = $(this).val();
     var p = $(this).parent();
@@ -178,6 +195,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       type: 'POST',
       url: 'includes/ajx_validation.php',
       data: data,
+      cache:false,
       dataType: 'json',
       success: function (data) {
         validateIcn(data.icon, p);
@@ -186,7 +204,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       }
     });
   });
-  $('#email_up').blur(function () {
+  $('.email_up').blur(function () {
     'use strict';
     var email = $(this).val();
     var p = $(this).parent();
@@ -194,6 +212,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/ajx_validation.php',
+      cache:false,
       data: data,
       dataType: 'json',
       success: function (data) {
@@ -204,7 +223,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     });
   });
 
-  $('#tel_up').blur(function () {
+  $('.tel_up').blur(function () {
     'use strict';
     var phone = $(this).val();
     var p = $(this).parent();
@@ -212,6 +231,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/ajx_validation.php',
+      cache:false,
       data: data,
       dataType: 'json',
       success: function (data) {
@@ -222,7 +242,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     });
   });
 
-  $('#address_up').blur(function () {
+  $('.address_up').blur(function () {
     'use strict';
     var address = $(this).val();
     var p = $(this).parent();
@@ -230,6 +250,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/ajx_validation.php',
+      cache:false,
       data: {
         address: address
       },
@@ -241,7 +262,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     });
   });
 
-  $('#pwd_up').blur(function () {
+  $('.pwd_up').blur(function () {
     'use strict';
     var password = $(this).val();
     var p = $(this).parent();
@@ -250,6 +271,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       type: 'POST',
       url: 'includes/ajx_validation.php',
       data: data,
+      cache:false,
       dataType: 'json',
       success: function (data) {
         validateIcn(data.icon, p);
@@ -267,6 +289,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/ajx_validation.php',
+      cache:false,
       data: {
         reset_pwd: resetPwd
       },
@@ -287,6 +310,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/ajx_validation.php',
+      cache:false,
       data: {
         reset_pwd: resetPwd,
         cnfrm_pwd: cnfrmPwd
@@ -314,6 +338,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       url: 'includes/sign_up.php',
       type: 'POST',
       dataType: 'json',
+      cache:false,
       data: {
         name: name,
         email: email,
@@ -328,19 +353,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       },
       success: function (data) {
         $('.signUp .before_msg').hide();
-        if (data.color === 'alert-success') {
-          $('.signUp form .alert').removeClass('alert-danger').addClass('alert-success');
-          $('.signUp form .alert_icon').removeClass('glyphicon-exclamation-sign').addClass(data.icn);
-        } else if (data.color === 'alert-danger') {
-          $('.signUp form .alert').removeClass('alert-success').addClass('alert-danger');
-          $('.signUp form .alert_icon').removeClass(data.icn).addClass('glyphicon-exclamation-sign');
-        } else {
-          $('.signUp form .alert').addClass(data.color);
-          $('.signUp form .alert_icon').addClass(data.icn);
-        }
-        $('.signUp form .alert_msg').html('<strong>' + data.txt + '</strong>');
-        $('.signUp form .alert').show();
-
+        displayAlert('.signUp .alertBlock', data.txt, data.color);
         // Reloads the page if login Successful
         if (data.color === 'alert-success') {
           window.setTimeout(function () {
@@ -360,6 +373,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       url: 'includes/sign_in.php',
       type: 'POST',
       dataType: 'json',
+      cache:false,
       data: {
         email: email,
         password: password,
@@ -371,23 +385,10 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       },
       success: function (data) {
         $('.signIn .before_msg').hide();
-        if (data.color === 'alert-success') {
-          $('.signIn form .alert').removeClass('alert-danger').addClass('alert-success');
-          $('.signIn form .alert_icon').removeClass('glyphicon-exclamation-sign').addClass(data.icn);
-        } else if (data.color === 'alert-danger') {
-          $('.signIn form .alert').removeClass('alert-success').addClass('alert-danger');
-          $('.signIn form .alert_icon').removeClass(data.icn).addClass('glyphicon-exclamation-sign');
-        } else {
-          $('.signIn form .alert').addClass(data.color);
-          $('.signIn form .alert_icon').addClass(data.icn);
-        }
-        $('.signIn form .alert_msg').html('<strong>' + data.txt + '</strong>');
-        $('.signIn form .alert').show();
+        displayAlert('.signIn .alertBlock', data.txt, data.color);
         // Reloads the page if login Successful
         if (data.color === 'alert-success') {
-          window.setTimeout(function () {
-            window.location.reload(true);
-          }, 2000);
+          window.location.reload(true);
         }
       }
     });
@@ -403,6 +404,7 @@ function validateIcn (icon, parent) { // toggle Validation Icon
     $.ajax({
       type: 'POST',
       url: 'includes/reset_pwd.php',
+      cache:false,
       data: {
         username: username,
         email: email,
@@ -417,17 +419,46 @@ function validateIcn (icon, parent) { // toggle Validation Icon
       },
       success: function (data) {
         $('.reset_body .before_msg').hide();
-        if (data.icon !== 'glyphicon glyphicon-ok text-success') {
-          $('.reset_body .alert').removeClass('alert-success').addClass('alert-warning');
-        } else {
-          $('.reset_body .alert').removeClass('alert-warning').addClass('alert-success');
-        }
-        $('.reset_body .alert p').html(data.txt);
-        $('.reset_body .alert').show();
+        displayAlert('.reset_body>.alertBlock', data.txt, data.color);
+
         if (data.icon === 'glyphicon glyphicon-ok text-success') {
           window.setTimeout(function () {
             window.location.replace('index.php');
           }, 2000);
+        }
+      }
+    });
+    return false;
+  });
+  $('#editUser').click(function () {
+    var name = $('#name_up').val();
+    // var email = $('#email_up').val();
+    var phone = $('#tel_up').val();
+    var address = $('#address_up').val();
+    var password = $('#pwd_up').val();
+
+    $.ajax({
+      url: 'includes/process_profile.php',
+      type: 'POST',
+      dataType: 'json',
+      cache:false,
+      data: {
+        name: name,
+        phone: phone,
+        address: address,
+        password: password,
+        editUser: ''
+      },
+      beforeSend: function () {
+        $('.before_msg').html('Processing...');
+        $('.before_msg').show();
+      },
+      success: function (data) {
+        $(' .before_msg').hide();
+        displayAlert('form .alertBlock', data.txt, data.color);
+        // Reloads the page if edit Successful
+        if (data.color === 'alert-success') {
+          window.location.replace('index.php?log_out');
         }
       }
     });

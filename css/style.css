@@ -42,6 +42,11 @@ nav ul.nav li:hover {
 .log_on ul li:nth-child(1) {
     margin-left: 23%;
 }
+@media(max-width:360px){
+.log_on ul li:nth-child(1) {
+    margin-left: 12%;
+}
+}
 .log_on ul li:nth-child(2) {
     margin-right: 23%;
 }
