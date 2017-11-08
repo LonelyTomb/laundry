@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost:80
--- Generation Time: Sep 21, 2016 at 11:45 AM
--- Server version: 5.7.15-0ubuntu0.16.04.1
--- PHP Version: 7.0.8-0ubuntu0.16.04.2
+-- Host: localhost:3306
+-- Generation Time: Nov 08, 2017 at 04:51 PM
+-- Server version: 5.7.20-0ubuntu0.17.10.1
+-- PHP Version: 7.1.8-1ubuntu1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,8 +17,29 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `laundry`
+-- Database: `washman`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `name` varchar(10) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `mailReceiver` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `name`, `email`, `password`, `mailReceiver`) VALUES
+(1, 'Washman', 'washman@admin.com', '$2y$10$7NcvuT9f2xVjAV/Z1KGraO1pmBOmyeRJsiJ3Yx09myqT/ZQ/NHg0y', 1);
 
 -- --------------------------------------------------------
 
@@ -141,6 +162,12 @@ INSERT INTO `users` (`id`, `usr_id`, `name`, `email`, `phone`, `address`, `passw
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -162,6 +189,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `category`
 --

@@ -31,7 +31,7 @@ function test_name($name, $icon)
 function test_email($email, $icon)
 {
     global  $pdo;
-    $email = secure($email);
+//    $email = $email;
     if (empty($email)) {
         return array('icon' => $icon['icn_remove'], 'txt' => 'Email is required!');
     }
